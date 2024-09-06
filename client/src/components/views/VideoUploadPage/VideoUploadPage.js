@@ -52,6 +52,19 @@ function VideoUploadPage() {
     Axios.post("/api/video/uploadfiles", formData, config).then((response) => {
       if (response.data.success) {
         console.log(response.data);
+
+        let variable = {
+          url: response.data.url,
+          fileName: response.data.fileName,
+        };
+
+        Axios.post("api/video/thumbnail", variable).then((response) => {
+          if (response.data.success) {
+            console.log(response.data);
+          } else {
+            alert("Failed to generate thumbnail");
+          }
+        });
       } else {
         alert("Failed to upload video");
       }
